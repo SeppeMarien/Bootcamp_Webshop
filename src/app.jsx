@@ -2,20 +2,22 @@ import React, { useState } from 'react';
 import { hot } from 'react-hot-loader/root';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
+import { string } from 'prop-types';
 import Home from './Modules/Home/Home';
 import NotFound from './Modules/Pages/NotFound';
 import NavigationBar from './Modules/Navigation/NavigationBar';
 import { LoggedIn } from './Providers/Providers';
 import Login from './Modules/LoginControlled/Login';
+import ProtectedRoute from './components/ProtectedRoute';
 
 import store from './store/store';
 import Todos from './Modules/Todo/Todos';
 
-function AppWithoutRender() {
-  const [userName, setUserName] = useState('');
+function AppWithoutRender({ initialUser = '' }) {
+  const [userName, setUserName] = useState(initialUser);
 
   function setUser(user) {
-    setUserName(user);
+    setUserName({ userName: user });
   }
 
   return (
@@ -24,7 +26,7 @@ function AppWithoutRender() {
         <NavigationBar />
         <Switch>
           <Route path="/login" exact render={() => <Login cbSetName={setUser} />} />
-          <Route path="/todos" exact component={Todos} />
+          <ProtectedRoute path="/todos" exact component={Todos} />
           <Route path="/" exact component={Home} />
           <Route component={NotFound} />
         </Switch>
@@ -33,12 +35,20 @@ function AppWithoutRender() {
   );
 }
 
-export function App() {
+AppWithoutRender.propTypes = {
+  initialUser: string,
+};
+
+AppWithoutRender.defaultProps = {
+  initialUser: undefined,
+};
+
+export function App(initialUser = '') {
   return (
     <>
       <Router>
         <Provider store={store}>
-          <AppWithoutRender />
+          <AppWithoutRender initialUser={initialUser} />
         </Provider>
       </Router>
     </>

@@ -20,6 +20,10 @@ jest.mock('./Modules/Navigation/NavigationBar', () => () => {
   return <div data-testid="navComp" />;
 });
 
+jest.mock('./Modules/Todo/Todos', () => () => {
+  return <div data-testid="todoComp" />;
+});
+
 describe('App testing', () => {
   describe('testing rendering', () => {
     test('it renders home component on default', () => {
@@ -43,6 +47,16 @@ describe('App testing', () => {
       const { queryByTestId, getByTestId } = renderWithRouter(<App />);
       expect(queryByTestId('notFoundComp')).not.toBeInTheDocument();
       getByTestId('navComp');
+    });
+
+    test('it does not render the todo without a logged in user', () => {
+      const { getByTestId } = renderWithRouter(<App />, { route: '/todos' });
+      getByTestId('loginComp');
+    });
+
+    test('it renders the todo when a user is logged in', () => {
+      const { getByTestId } = renderWithRouter(<App initialUser="John" />, { route: '/todos' });
+      getByTestId('todoComp');
     });
   });
 });

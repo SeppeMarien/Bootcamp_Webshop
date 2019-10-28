@@ -4,7 +4,7 @@ import { func, string, bool } from 'prop-types';
 import { LoggedIn } from '../Providers/Providers';
 
 function ProtectedRoute({ component: Component, render, path, exact }) {
-  const userName = useContext(LoggedIn);
+  const { userName } = useContext(LoggedIn);
 
   return (
     <Route

@@ -10,7 +10,7 @@ const Login = ({ cbSetName }) => {
     username: '',
     password: '',
   });
-  const user = useContext(LoggedIn);
+  const { userName } = useContext(LoggedIn);
 
   // reference for focus
   const usernameInput = useRef();
@@ -31,10 +31,14 @@ const Login = ({ cbSetName }) => {
         username: 'Ludiewieg',
         password: 'AlsoValid',
       },
+      Admin: {
+        username: 'admin',
+        password: 'secret',
+      },
     };
   }
 
-  if (user) return <Redirect to="/" />;
+  if (userName) return <Redirect to="/" />;
 
   // validate users!
   const validateUser = e => {

@@ -6,7 +6,8 @@ import NotificationCounter from '../Notifications/NotificationCounter';
 function NavigationBar() {
   const pathToLogo = '../../public/images/js-logo.png';
 
-  const userLoggedIn = useContext(LoggedIn);
+  const { userName } = useContext(LoggedIn);
+  console.log(LoggedIn);
 
   return (
     <nav className="navbar navbar-light bg-light">
@@ -18,7 +19,7 @@ function NavigationBar() {
         {' '}
         todos
       </NavLink>
-      {userLoggedIn ? (
+      {userName ? (
         <>
           <NotificationCounter />
           <NavLink className="navbar-brand" to="/logout">

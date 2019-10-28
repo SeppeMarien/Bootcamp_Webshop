@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Redirect } from 'react-router';
 import { addTodo, completeTodo } from '../../store/reducers/Actions/TodoActions';
+import { LoggedIn } from '../../Providers/Providers';
 // import * as todoActions from '../../store/reducers/Actions/TodoActions';
 
 const Todos = () => {
   const [todoName, setTodoName] = useState('');
   const todos = useSelector(state => Object.values(state.todos));
   const dispatch = useDispatch();
+  const userName = useContext(LoggedIn);
 
   function onTodoNameChange(e) {
     const {
@@ -33,6 +36,8 @@ const Todos = () => {
 
     dispatch(addTodo({ id: highestId, name: todoName, completed: false }));
   }
+
+  if (!userName) return <Redirect to="/login" />;
 
   return (
     <div className="container-fluid">

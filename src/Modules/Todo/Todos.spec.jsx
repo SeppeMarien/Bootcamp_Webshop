@@ -4,6 +4,7 @@ import { fireEvent } from '@testing-library/react';
 
 import Todos from './Todos';
 import { renderWithRedux } from '../../../test/react-testing-helpers';
+import { LoggedIn } from '../../Providers/Providers';
 
 function initialTodos() {
   return {
@@ -15,29 +16,38 @@ function initialTodos() {
   };
 }
 
-const renderTodos = () => {
-  return renderWithRedux(<Todos />, {
-    initialState: {
-      todos: initialTodos(),
-    },
-  });
+const renderTodos = name => {
+  return renderWithRedux(
+    <LoggedIn.Provider value={name}>
+      <Todos />
+    </LoggedIn.Provider>,
+    {
+      initialState: {
+        todos: initialTodos(),
+      },
+    }
+  );
 };
+
+jest.mock('../LoginControlled/Login', () => () => {
+  return <div data-testid="loginComp" />;
+});
 
 describe('Todos component testing', () => {
   test('it render todos comp by default', () => {
-    const { getByRole, getByText } = renderTodos();
+    const { getByRole, getByText } = renderTodos('Joske');
     getByRole('heading');
     getByText(/remaining/);
   });
 
   describe('list of remaining todos', () => {
     test('it renders the list of the dotos', () => {
-      const { getByRole } = renderTodos();
+      const { getByRole } = renderTodos('Ludwig');
       getByRole('list');
     });
 
     test('it removes taskes when clicked', () => {
-      const { queryByLabelText } = renderTodos();
+      const { queryByLabelText } = renderTodos('Seppe');
       let box = queryByLabelText('Shoot stupid people');
       fireEvent.click(box);
 
@@ -45,16 +55,4 @@ describe('Todos component testing', () => {
       expect(box).not.toBeInTheDocument();
     });
   });
-
-  // test('it add item to list', () => {
-  //   const { queryByText, getByRole, getByText } = renderTodos();
-
-  //   const input = getByRole('textbox');
-  //   const form = getByRole('form');
-
-  //   fireEvent.change(input, { target: { value: 'Shoot stupid people again' } });
-  //   fireEvent.submit(form);
-
-  //   expect(queryByText(/Shoot stupid people again/)).toBeInTheDocument();
-  // });
 });
