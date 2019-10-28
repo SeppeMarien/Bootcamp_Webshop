@@ -5,7 +5,7 @@ import { render, within, fireEvent, waitForElementToBeRemoved } from '@testing-l
 
 import Alert from './Alert';
 
-describe.skip('Alert component', () => {
+describe('Alert component', () => {
   test('it renders by default', () => {
     const childTestId = 'childTestId';
 
