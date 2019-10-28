@@ -1,119 +1,152 @@
-/* eslint-disable jest/no-disabled-tests */
 import nock from 'nock';
 import { getUserById, listPagedUsers, saveUser } from './userApi';
 
-function mapTest(result) {
-  const mapped = { ...result };
-  if (mapped.birthDate) {
-    mapped.birthDate = new Date(mapped.birthDate);
+describe('User api', () => {
+  function fakeApi() {
+    return nock('http://localhost:3000');
   }
-  return mapped;
-}
 
-function bart() {
-  return {
-    isFamily: true,
-    birthDate: '2009-01-19T23:00:00.000Z',
-    gender: 'M',
-    lastName: 'Simpson',
-    firstName: 'Bart',
-    id: 1,
-  };
-}
+  function bartSimpson() {
+    return {
+      isFamily: true,
+      gender: 'M',
+      lastName: 'Simpson',
+      firstName: 'Bart',
+      id: 1,
+    };
+  }
 
-function homer() {
-  return {
-    isFamily: true,
-    gender: 'M',
-    lastName: 'Simpson',
-    firstName: 'Homer',
-    id: 4,
-  };
-}
+  function lisaSimpson() {
+    return {
+      isFamily: true,
+      birthDate: '2011-08-13T22:00:00.000Z',
+      gender: 'F',
+      lastName: 'Simpson',
+      firstName: 'Lisa',
+      id: 2,
+    };
+  }
 
-function Burns() {
-  return {
-    isFamily: false,
-    birthDate: new Date('1890-09-15T23:00:00.000Z'),
-    gender: 'M',
-    lastName: 'Burns',
-    firstName: 'Montgomery',
-  };
-}
+  describe('getUserById', () => {
+    test('it returns the data', async () => {
+      const resource = bartSimpson();
 
-const page2Limit2Sorted = {
-  headers: {
-    'x-total-count': 8,
-  },
-  data: [bart(), homer()],
-};
+      fakeApi()
+        .get(`/users/1`)
+        .reply(200, resource);
 
-describe.skip('Users api', () => {
-  describe('getUsersById', () => {
-    test('It has to return one user', async () => {
-      nock('http://localhost:3000/')
-        .get('/user/1')
-        .reply(200, bart());
+      const user = await getUserById(resource.id);
 
-      const result = await getUserById(1);
-
-      expect(result).toEqual(mapTest(bart()));
+      expect(user).toStrictEqual(resource);
     });
 
-    test('It has to return user without birth date.', async () => {
-      nock('http://localhost:3000/')
-        .get('/user/1')
-        .reply(200, homer());
+    test('it maps the birthDate as a date', async () => {
+      const resource = lisaSimpson();
 
-      const result = await getUserById(1);
+      fakeApi()
+        .get('/users/2')
+        .reply(200, resource);
 
-      expect(result).toEqual(homer());
+      const user = await getUserById(resource.id);
+
+      expect(user).toStrictEqual({ ...resource, birthDate: new Date(resource.birthDate) });
     });
   });
 
-  describe('getUsersPage', () => {
-    test('It returns page of all users', async () => {
-      nock('http://localhost:3000/')
+  describe('listPagedUsers', () => {
+    function buildDefaultQuery() {
+      return {
+        _page: 1,
+        _limit: 10,
+        _sort: 'lastName,firstName',
+      };
+    }
+
+    test('ensure it limits the results by default on 10', async () => {
+      fakeApi()
         .get('/users')
-        .query({ _page: 2, _limit: 2, _sort: 'lastName,firstName' })
-        .reply(200, page2Limit2Sorted);
+        .query({
+          ...buildDefaultQuery(),
+        })
+        .reply(200, []);
 
-      const result = await listPagedUsers(2, 2);
-
-      expect(result).toEqual({
-        total: 8,
-        data: [mapTest(bart()), mapTest(homer())],
-      });
+      await listPagedUsers(1);
     });
 
-    test('it returns page with default of 10', async () => {
-      nock('http://localhost:3000/')
+    test('it returns the data', async () => {
+      const givenPage = 2;
+      const givenLimit = 3;
+
+      const bart = bartSimpson();
+      const lisa = lisaSimpson();
+
+      fakeApi()
         .get('/users')
-        .query({ _page: 2, _limit: 10, _sort: 'lastName,firstName' })
-        .reply(200, page2Limit2Sorted);
+        .query({
+          ...buildDefaultQuery(),
+          _page: givenPage,
+          _limit: givenLimit,
+        })
+        .reply(200, [bart, lisa]);
 
-      const result = await listPagedUsers(2);
+      const { data } = await listPagedUsers(givenPage, givenLimit);
 
-      expect(result).toEqual({
-        total: 8,
-        data: [mapTest(bart()), mapTest(homer())],
-      });
+      expect(data).toStrictEqual([bart, { ...lisa, birthDate: new Date(lisa.birthDate) }]);
+    });
+
+    test('it return the value of X-Total-Count header as total', async () => {
+      fakeApi()
+        .get('/users')
+        .query({
+          ...buildDefaultQuery(),
+        })
+        .reply(200, [], { 'X-Total-Count': '10' });
+
+      const { total } = await listPagedUsers(1);
+
+      expect(total).toBe(10);
     });
   });
 
   describe('saveUser', () => {
-    test('It save the user when not exists', async () => {
-      const burns = Burns();
+    test('it creates a new user when the user has no id', async () => {
+      const user = {
+        firstName: 'John',
+        lastName: 'Doe',
+        gender: 'M',
+        isFamily: false,
+        birthDate: new Date(1978, 7, 4),
+      };
 
-      nock('http://localhost:3000/')
-        .post('/users', { ...burns, birthDate: JSON.stringify(burns.birthDate) })
-        .reply(200, bart());
+      const resource = lisaSimpson();
 
-      const result = await saveUser(Burns());
+      fakeApi()
+        .post('/users', JSON.parse(JSON.stringify(user)))
+        .reply(200, resource);
 
-      expect(result).toEqual(mapTest(bart()));
+      const newUser = await saveUser(user);
+      expect(newUser).toStrictEqual({ ...resource, birthDate: new Date(resource.birthDate) });
+    });
+
+    test('it updates the user when the user has an id', async () => {
+      const user = {
+        id: 3,
+        firstName: 'John',
+        lastName: 'Doe',
+        gender: 'M',
+        isFamily: false,
+        birthDate: new Date(1978, 7, 4),
+      };
+
+      const resource = lisaSimpson();
+
+      fakeApi()
+        .put('/users/3', JSON.parse(JSON.stringify(user)))
+        .reply(200, resource);
+
+      const newUser = await saveUser(user);
+
+      expect(newUser).toStrictEqual({ ...resource, birthDate: new Date(resource.birthDate) });
     });
   });
 });
-
-// http://localhost:3000/users?_page=2&_limit=2&_sort=lastName,firstName

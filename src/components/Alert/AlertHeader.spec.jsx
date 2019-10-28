@@ -5,7 +5,7 @@ import '@testing-library/jest-dom/extend-expect';
 import { render } from '@testing-library/react';
 import AlertHeader from './AlertHeader';
 
-describe.skip('Alert header', () => {
+describe('Alert header', () => {
   test('it renders by default', () => {
     const { getByRole } = render(<AlertHeader>Makes the warning go away</AlertHeader>);
 
