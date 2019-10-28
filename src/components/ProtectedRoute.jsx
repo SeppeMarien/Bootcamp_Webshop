@@ -4,13 +4,11 @@ import { func, string, bool } from 'prop-types';
 import { LoggedIn } from '../Providers/Providers';
 
 function ProtectedRoute({ component: Component, render, path, exact }) {
-  const { userName } = useContext(LoggedIn);
+  const userName = useContext(LoggedIn);
 
   return (
     <Route
       render={({ location, history, match }) => {
-        console.log(userName);
-
         if (!userName) return <Redirect to={{ pathname: '/login', state: { from: location } }} />;
         return Component ? (
           <Component location={location} history={history} match={match} />

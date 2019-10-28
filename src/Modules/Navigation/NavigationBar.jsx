@@ -5,9 +5,7 @@ import NotificationCounter from '../Notifications/NotificationCounter';
 
 function NavigationBar() {
   const pathToLogo = '../../public/images/js-logo.png';
-
-  const { userName } = useContext(LoggedIn);
-  console.log(LoggedIn);
+  const userName = useContext(LoggedIn);
 
   return (
     <nav className="navbar navbar-light bg-light">
