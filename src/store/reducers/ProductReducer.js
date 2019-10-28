@@ -1,7 +1,7 @@
 // import { ADD_PRODUCT } from '../Actions/actionTypes';
 
-// const initialState = {};
+const initialState = {};
 
-export default function productReducer(state) {
+export default function productReducer(state = initialState) {
   return state;
 }
