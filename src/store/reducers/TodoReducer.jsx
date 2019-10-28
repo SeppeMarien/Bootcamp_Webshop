@@ -1,4 +1,4 @@
-import { ADD_TODO, COMPLETE_TODO } from './Actions/actionTypes';
+import { ADD_TODO, COMPLETE_TODO } from '../Actions/actionTypes';
 
 function TodoReducer(state = {}, action) {
   switch (action && action.type) {

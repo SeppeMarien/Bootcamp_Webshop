@@ -1,5 +1,5 @@
 import { TodoReducer } from './TodoReducer';
-import { addTodo, completeTodo } from './Actions/TodoActions';
+import { addTodo, completeTodo } from '../Actions/TodoActions';
 
 /**
  * @typedef {object} Todo
