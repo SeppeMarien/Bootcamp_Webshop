@@ -8,7 +8,6 @@ const api = axios.create({
 
 // Add a request log interceptor
 api.interceptors.request.use(config => {
-  console.log(config.method.toUpperCase(), config.url);
   return config;
 });
 

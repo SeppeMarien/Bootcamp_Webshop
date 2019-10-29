@@ -9,6 +9,10 @@ jest.mock('../Notifications/NotificationCounter', () => () => {
   return <div data-testid="navNotificationCounter" />;
 });
 
+jest.mock('../../components/ShoppingCartBadge', () => () => {
+  return <div data-testid="navShoppingBadge" />;
+});
+
 describe('Navigation bar component', () => {
   test('It renders by default', () => {
     const { getByRole } = renderWithRouter(<NavigationBar />);
@@ -26,6 +30,11 @@ describe('Navigation bar component', () => {
     const { getByText } = renderWithRouter(<NavigationBar />);
 
     getByText('Bootcamp');
+  });
+
+  test('it renders the shopping cart badge', () => {
+    const { getByTestId } = renderWithRouter(<NavigationBar />);
+    expect(getByTestId('navShoppingBadge')).toBeInTheDocument();
   });
 
   describe('Log in, log out tests', () => {

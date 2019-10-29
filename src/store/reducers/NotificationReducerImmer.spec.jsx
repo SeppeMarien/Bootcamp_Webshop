@@ -1,7 +1,7 @@
 import MockDate from 'mockdate';
 import NotificationReducerImmer from './NotificationReducerImmer';
 import '@testing-library/jest-dom/extend-expect';
-import { AddNotification } from './Actions/Notification';
+import { AddNotification } from '../Actions/Notification';
 
 function createNotification(id, to) {
   return {

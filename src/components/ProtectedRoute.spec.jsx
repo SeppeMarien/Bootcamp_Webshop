@@ -110,11 +110,10 @@ describe('Protected route component', () => {
     test('it renders the component when the path matches', () => {
       const component = createMockComponent();
 
-      const { getByTestId, history, debug } = renderComponent({
+      const { getByTestId, history } = renderComponent({
         route: '/match',
         render: component,
       });
-      debug();
       getByTestId('fake-component');
 
       expect(component).toHaveBeenCalledWith(

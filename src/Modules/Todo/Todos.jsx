@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router';
-import { addTodo, completeTodo } from '../../store/reducers/Actions/TodoActions';
+import { addTodo, completeTodo } from '../../store/Actions/TodoActions';
 import { LoggedIn } from '../../Providers/Providers';
 // import * as todoActions from '../../store/reducers/Actions/TodoActions';
 

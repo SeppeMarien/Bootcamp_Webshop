@@ -8,7 +8,7 @@ const renderLogin = () => {
   return render(<Login cbSetName={jest.fn(x => x + 10)} />);
 };
 
-describe.skip('login form', () => {
+describe('login form', () => {
   describe('Login form rendering', () => {
     test('Does form renders with input field username ane password', () => {
       const { getByPlaceholderText } = renderLogin();
