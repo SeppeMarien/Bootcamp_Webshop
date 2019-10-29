@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 function ShoppingCartBadge() {
   const myProducts = useSelector(state => state.products);
@@ -13,9 +13,9 @@ function ShoppingCartBadge() {
   };
 
   return (
-    <Link to="/checkout">
+    <NavLink to="/checkout">
       <i className="fa fa-shopping-cart" />({getAmountOfProducts()})
-    </Link>
+    </NavLink>
   );
 }
 
