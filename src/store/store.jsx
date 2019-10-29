@@ -3,7 +3,7 @@ import { composeWithDevTools } from 'redux-devtools-extension/logOnlyInProductio
 import { TodoReducer } from './reducers/TodoReducer';
 import productReducer from './reducers/ProductReducer';
 
-const reducer = combineReducers({
+export const reducer = combineReducers({
   todos: TodoReducer,
   products: productReducer,
 });
