@@ -17,6 +17,9 @@ function NavigationBar() {
         {' '}
         todos
       </NavLink>
+      <NavLink className="navbar-brand" to="/products">
+        Products
+      </NavLink>
       {userName ? (
         <>
           <NotificationCounter />

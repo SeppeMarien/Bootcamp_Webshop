@@ -28,6 +28,12 @@ describe('Navigation bar component', () => {
     getByText('Bootcamp');
   });
 
+  test('it renders with product link', () => {
+    const { getByText } = renderWithRouter(<NavigationBar />);
+
+    getByText('Products');
+  });
+
   describe('Log in, log out tests', () => {
     test('It renders with a log out link if user is logged in', () => {
       const { getByText, queryByText, getByTestId } = renderWithRouter(
