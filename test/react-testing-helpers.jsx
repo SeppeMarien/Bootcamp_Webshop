@@ -6,7 +6,7 @@ import { render } from '@testing-library/react';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 
-import { TodoReducer } from '../src/store/reducers/TodoReducer';
+import { reducer } from '../src/store/store';
 
 export function renderWithRouter(
   ui,
@@ -30,7 +30,7 @@ export function renderWithRouter(
   };
 }
 
-export function renderWithRedux(ui, { initialState = {}, store = createStore(TodoReducer, initialState) } = {}) {
+export function renderWithRedux(ui, { initialState = {}, store = createStore(reducer, initialState) } = {}) {
   return {
     ...render(ui, {
       wrapper: props => <Provider {...props} store={store} />,
