@@ -1,7 +1,7 @@
 /* eslint-disable default-case */
 /* eslint-disable no-param-reassign */
 import produce from 'immer';
-import { ADD_NOTIFICATION } from './Actions/actionTypes';
+import { ADD_NOTIFICATION } from '../Actions/actionTypes';
 
 const initialState = {};
 
