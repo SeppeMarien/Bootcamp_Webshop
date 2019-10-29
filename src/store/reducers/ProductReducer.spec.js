@@ -1,7 +1,5 @@
 import productReducer from './ProductReducer';
-import { addProduct } from '../Actions/ProductActions';
-// import { ADD_PRODUCT } from '../Actions/actionTypes';
-// import {ADD_PRODUCT, REMOVE_PRODUCT} from "../Actions/actionTypes"
+import { addProduct, removeProduct } from '../Actions/ProductActions';
 
 test('returns state by default', () => {
   const prevState = { id: 3 };
@@ -41,5 +39,19 @@ describe('ADD_PRODUCT', () => {
     };
     const newState = productReducer(prevState, addProduct(product));
     expect(newState[3].amount).toEqual(2);
+  });
+
+  describe('REMOVE_PRODUCT', () => {
+    test('REMOVE_PRODUCT removes a product from an existing list', () => {
+      const prevState = {
+        1: { product: { id: 1, name: 'fanta' }, amount: 1 },
+        3: { product: { id: 3, name: 'cola' }, amount: 1 },
+      };
+      const expectedNewState = {
+        1: { product: { id: 1, name: 'fanta' }, amount: 1 },
+      };
+      const newState = productReducer(prevState, removeProduct(3));
+      expect(newState).toEqual(expectedNewState);
+    });
   });
 });
