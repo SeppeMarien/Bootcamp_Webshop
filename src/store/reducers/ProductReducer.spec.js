@@ -54,4 +54,15 @@ describe('ADD_PRODUCT', () => {
       expect(newState).toEqual(expectedNewState);
     });
   });
+
+  describe('Immutable', () => {
+    test('productReducer does not mutate the initial state', () => {
+      const prevState = {
+        1: { product: { id: 1, name: 'fanta' }, amount: 1 },
+        3: { product: { id: 3, name: 'cola' }, amount: 1 },
+      };
+      const newState = productReducer(prevState, removeProduct(3));
+      expect(newState).not.toBe(prevState);
+    });
+  });
 });
