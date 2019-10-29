@@ -45,13 +45,13 @@ export function renderWithRedux(ui, { initialState = {}, store = createStore(Tod
 
 export function renderWithRouterAndProductsRedux(
   ui,
+  { initialState = {}, store = createStore(productReducer, initialState) } = {},
   {
     route = '/',
     history = createMemoryHistory({
       initialEntries: [route],
     }),
-  } = {},
-  { initialState = {}, store = createStore(productReducer, initialState) } = {}
+  } = {}
 ) {
   return {
     ...render(ui, {

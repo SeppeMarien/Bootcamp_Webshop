@@ -5,16 +5,16 @@ import { Link } from 'react-router-dom';
 
 function ShoppingCartBadge() {
   const myProducts = useSelector(state => state.products);
-  console.log(myProducts);
-  // const getAmountOfProducts = () => {
-  //   Object.values(myProducts).reduce((acc, item) => {
-  //     return acc+item.
-  //   });
-  // };
+
+  const getAmountOfProducts = () => {
+    return Object.values(myProducts).reduce((total, item) => {
+      return total + Number(item.amount);
+    }, 0);
+  };
 
   return (
     <Link to="/checkout">
-      <i className="fa fa-shopping-cart" />
+      <i className="fa fa-shopping-cart" />({getAmountOfProducts()})
     </Link>
   );
 }
