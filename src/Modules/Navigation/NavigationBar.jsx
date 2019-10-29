@@ -2,6 +2,7 @@ import { NavLink } from 'react-router-dom';
 import React, { useContext } from 'react';
 import { LoggedIn } from '../../Providers/Providers';
 import NotificationCounter from '../Notifications/NotificationCounter';
+import ShoppingCartBadge from '../../components/ShoppingCartBadge';
 
 function NavigationBar() {
   const pathToLogo = '../../public/images/js-logo.png';
@@ -32,6 +33,7 @@ function NavigationBar() {
           Log In
         </NavLink>
       )}
+      <ShoppingCartBadge />
     </nav>
   );
 }
