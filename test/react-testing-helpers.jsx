@@ -7,6 +7,8 @@ import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 
 import { reducer } from '../src/store/store';
+import { TodoReducer } from '../src/store/reducers/TodoReducer';
+import productReducer from '../src/store/reducers/ProductReducer';
 
 export function renderWithRouter(
   ui,
@@ -38,6 +40,30 @@ export function renderWithRedux(ui, { initialState = {}, store = createStore(red
     // adding `store` to the returned utilities to allow us
     // to reference it in our tests (just try to avoid using
     // this to test implementation details).
+    store,
+  };
+}
+
+export function renderWithRouterAndProductsRedux(
+  ui,
+  { initialState = {}, store = createStore(productReducer, initialState) } = {},
+  {
+    route = '/',
+    history = createMemoryHistory({
+      initialEntries: [route],
+    }),
+  } = {}
+) {
+  return {
+    ...render(ui, {
+      wrapper: props => (
+        <Router {...props} history={history}>
+          {' '}
+          <Provider {...props} store={store} />
+        </Router>
+      ),
+    }),
+    history,
     store,
   };
 }
