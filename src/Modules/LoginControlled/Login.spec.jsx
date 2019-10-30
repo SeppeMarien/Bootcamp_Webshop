@@ -1,13 +1,26 @@
 /* eslint-disable jest/no-disabled-tests */
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { fireEvent } from '@testing-library/react';
+import { Route } from 'react-router-dom';
 import Login from './Login';
 import '@testing-library/jest-dom/extend-expect';
+import { renderWithRouter } from '../../../test/react-testing-helpers';
+import { LoggedIn } from '../../Providers/Providers';
 
-const renderLogin = () => {
-  return render(<Login cbSetName={jest.fn(x => x + 10)} />);
+const renderLogin = (route = '/login') => {
+  return renderWithRouter(<Login cbSetName={jest.fn(x => x + 10)} />, { route });
 };
 
+const renderLoginWithUser = ({ route = '/login', state = undefined }) => {
+  return renderWithRouter(
+    <LoggedIn.Provider value={{ userName: 'Jihn' }}>
+      <Route path="/login" exact render={() => <Login cbSetName={jest.fn(x => x + 10)} />} />
+    </LoggedIn.Provider>,
+    {
+      route: { pathname: route, state },
+    }
+  );
+};
 describe('login form', () => {
   describe('Login form rendering', () => {
     test('Does form renders with input field username ane password', () => {
@@ -72,7 +85,42 @@ describe('login form', () => {
 
       expect(alert).not.toBeInTheDocument();
     });
+
+    test('login redirects to the previous route', () => {
+      const initialState = {
+        from: {
+          pathname: '/todos',
+          hash: '#666',
+          search: '?page=1',
+        },
+      };
+
+      const { history } = renderLoginWithUser({
+        route: '/login',
+        state: initialState,
+      });
+
+      expect(history).toHaveProperty(
+        'location',
+        expect.objectContaining({
+          pathname: '/todos',
+          hash: '#666',
+          search: '?page=1',
+        })
+      );
+    });
+
+    test('login redirects to home if there is no state', () => {
+      const { history } = renderLoginWithUser({ route: '/login' });
+
+      expect(history).toHaveProperty(
+        'location',
+        expect.objectContaining({
+          pathname: '/',
+          hash: '',
+          search: '',
+        })
+      );
+    });
   });
 });
-
-// getby label text
