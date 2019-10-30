@@ -1,7 +1,7 @@
 import React from 'react';
 import { fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
-import { renderWithRouterAndProductsRedux } from '../../test/react-testing-helpers';
+import { renderWithRouterAndRedux } from '../../test/react-testing-helpers';
 
 import ShoppingCartBadge from './ShoppingCartBadge';
 
@@ -15,12 +15,8 @@ describe('Shopping cart item', () => {
     };
   };
 
-  function customRender() {
-    return renderWithRouterAndProductsRedux(<ShoppingCartBadge />, {
-      initialState: {
-        products: initialProducts(),
-      },
-    });
+  function customRender(initialState = { products: {} }) {
+    return renderWithRouterAndRedux(<ShoppingCartBadge />, { initialState });
   }
 
   test('link works', () => {
@@ -35,7 +31,7 @@ describe('Shopping cart item', () => {
     expect(icon).toBeInTheDocument();
   });
   test('it shows the amount of prodducts in the shopping cart', () => {
-    const { getByText } = customRender();
+    const { getByText } = customRender({ products: initialProducts() });
     expect(getByText('(3)')).toBeInTheDocument();
   });
 });

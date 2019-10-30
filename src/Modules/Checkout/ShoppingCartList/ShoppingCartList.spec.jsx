@@ -28,7 +28,7 @@ describe('Shoping cart list', () => {
     getByRole('table');
     const productName = queryByText('cola');
     const productImage = queryByAltText('cola');
-    const productPrice = queryByText('20');
+    const productPrice = queryByText(/20/i);
     const productQuantity = queryByText('4');
     const productSku = queryByText('tyui');
 

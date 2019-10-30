@@ -13,7 +13,7 @@ describe('Checkout', () => {
     const { container, getByPlaceholderText } = renderCheckoutList();
 
     expect(container).not.toBeEmpty();
-    getByPlaceholderText('requestTextbox');
+    getByPlaceholderText('additional information');
   });
 
   test('It renders shopping list and calculate checkout', () => {

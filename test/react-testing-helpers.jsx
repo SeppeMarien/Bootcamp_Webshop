@@ -7,8 +7,6 @@ import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 
 import { reducer } from '../src/store/store';
-import { TodoReducer } from '../src/store/reducers/TodoReducer';
-import productReducer from '../src/store/reducers/ProductReducer';
 
 export function renderWithRouter(
   ui,
@@ -44,9 +42,9 @@ export function renderWithRedux(ui, { initialState = {}, store = createStore(red
   };
 }
 
-export function renderWithRouterAndProductsRedux(
+export function renderWithRouterAndRedux(
   ui,
-  { initialState = {}, store = createStore(productReducer, initialState) } = {},
+  { initialState = {}, store = createStore(reducer, initialState) } = {},
   {
     route = '/',
     history = createMemoryHistory({
