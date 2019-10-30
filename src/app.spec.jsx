@@ -24,7 +24,7 @@ jest.mock('./Modules/Todo/Todos', () => () => {
   return <div data-testid="todoComp" />;
 });
 
-jest.mock('./Modules/ShoppingList/ShoppingList', () => () => {
+jest.mock('./Modules/ShoppingList/ProductList', () => () => {
   return <div data-testid="shoppingComp" />;
 });
 

@@ -25,6 +25,9 @@ describe('testing product item component', () => {
     getByText('1050047509');
     getByTestId('price');
 
+    const container = getByTestId('product-item');
+    expect(container).toHaveAttribute('data-id', '1');
+
     const alert = getByRole('alert');
     expect(alert).toHaveClass('alert', 'alert-danger');
   });

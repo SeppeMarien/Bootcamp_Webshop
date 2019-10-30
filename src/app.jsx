@@ -12,7 +12,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 
 import store from './store/store';
 import Todos from './Modules/Todo/Todos';
-import ShoppingList from './Modules/ShoppingList/ShoppingList';
+import ShoppingList from './Modules/ShoppingList/ProductList';
 
 function AppWithoutRender({ initialUser = '' }) {
   const [userName, setUserName] = useState(initialUser);

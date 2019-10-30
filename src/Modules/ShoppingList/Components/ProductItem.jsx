@@ -5,9 +5,10 @@ import Alert from '../../../components/Alert/Alert';
 import DiscountBadge from './DiscountBadge';
 
 const ProductItem = ({ item }) => {
-  const { title, desc, image, sku, stocked, price, basePrice } = item;
+  const { id, title, desc, image, sku, stocked, price, basePrice } = item;
+
   return (
-    <div className="card" style={{ width: '18rem' }}>
+    <div className="card" style={{ width: '18rem' }} data-testid="product-item" data-id={id}>
       <img src={!image ? 'http://placehold.it/350x260' : image} className="card-img-top" alt="productImage" />
       <div className="card-body">
         <h5 className="card-title">{title}</h5>
