@@ -2,6 +2,7 @@ import React from 'react';
 import { shape, number, string, bool } from 'prop-types';
 import Button from '../../../components/Button';
 import Alert from '../../../components/Alert/Alert';
+import DiscountBadge from './DiscountBadge';
 
 const ProductItem = ({ item }) => {
   const { title, desc, image, sku, stocked, price, basePrice } = item;
@@ -33,6 +34,7 @@ const ProductItem = ({ item }) => {
       <div className="card-body">
         <Button className="secondary">Add to card</Button>
       </div>
+      {basePrice && basePrice > price && <DiscountBadge price={price} basePrice={basePrice} />}
     </div>
   );
 };

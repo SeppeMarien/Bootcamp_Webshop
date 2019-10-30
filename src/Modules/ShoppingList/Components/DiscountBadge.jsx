@@ -5,7 +5,7 @@ function DiscountBadge({ price, basePrice }) {
   const getDiscount = () => {
     return 100 - (100 * price) / basePrice;
   };
-  return <div className="product-discount-label" data-testid="container">{`${getDiscount()}%`}</div>;
+  return <div className="product-discount-label" data-testid="discount-container">{`${getDiscount()}%`}</div>;
 }
 
 DiscountBadge.propTypes = {

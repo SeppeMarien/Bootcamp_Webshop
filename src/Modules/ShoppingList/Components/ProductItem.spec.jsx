@@ -98,5 +98,27 @@ describe('testing product item component', () => {
         expect(basePrice).not.toBeInTheDocument();
       });
     });
+
+    describe('discount badge', () => {
+      test('discount badge does not render when price has been raised', () => {
+        const { queryByTestId } = render(1, { price: 23.99, basePrice: 5.0 });
+        expect(queryByTestId('discount-container')).not.toBeInTheDocument();
+      });
+
+      test('discount badge does not render when price has no been changed (without basePrice)', () => {
+        const { queryByTestId } = render(1, { price: 23.99 });
+        expect(queryByTestId('discount-container')).not.toBeInTheDocument();
+      });
+
+      test('discount badge does not render when price has no been changed (with basePrice)', () => {
+        const { queryByTestId } = render(1, { price: 23.99, basePrice: 23.99 });
+        expect(queryByTestId('discount-container')).not.toBeInTheDocument();
+      });
+
+      test('discount badge does render when there is a discount', () => {
+        const { getByTestId } = render(1, { price: 23.99, basePrice: 50.0 });
+        expect(getByTestId('discount-container')).toBeInTheDocument();
+      });
+    });
   });
 });

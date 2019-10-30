@@ -12,7 +12,7 @@ const renderBadge = () => {
 
 test('it renders', () => {
   const { getByTestId } = renderBadge();
-  getByTestId('container');
+  getByTestId('discount-container');
 });
 
 test('is shows the discount', () => {
