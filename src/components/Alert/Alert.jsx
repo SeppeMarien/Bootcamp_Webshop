@@ -33,7 +33,7 @@ function Alert({ children, dismissible, variant }) {
 Alert.propTypes = {
   children: node.isRequired,
   dismissible: bool,
-  variant: oneOf(['primary', 'secondary']),
+  variant: oneOf(['primary', 'secondary', 'success', 'warning', 'danger']),
 };
 
 Alert.defaultProps = {
