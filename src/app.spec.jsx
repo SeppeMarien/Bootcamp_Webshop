@@ -24,8 +24,13 @@ jest.mock('./Modules/Todo/Todos', () => () => {
   return <div data-testid="todoComp" />;
 });
 
+
 jest.mock('./Modules/ShoppingList/ProductList', () => () => {
   return <div data-testid="shoppingComp" />;
+});
+
+jest.mock('./Modules/Checkout/Checkout.jsx', () => () => {
+  return <div data-testid="checkoutComp" />;
 });
 
 describe('App testing', () => {
@@ -59,13 +64,19 @@ describe('App testing', () => {
     });
 
     test('it renders the todo when a user is logged in', () => {
-      const { getByTestId } = renderWithRouter(<App initialUser="John" />, { route: '/todos' });
+      const { getByTestId } = renderWithRouter(<App initialUser={{ userName: 'John' }} />, { route: '/todos' });
       getByTestId('todoComp');
     });
+
 
     test('it renders the shopping list component', () => {
       const { getByTestId } = renderWithRouter(<App />, { route: '/products' });
       getByTestId('shoppingComp');
+    });
+    
+    test('it renders the checkout when a user is logged in', () => {
+      const { getByTestId } = renderWithRouter(<App initialUser={{ userName: 'John' }} />, { route: '/checkout' });
+      getByTestId('checkoutComp');
     });
   });
 });

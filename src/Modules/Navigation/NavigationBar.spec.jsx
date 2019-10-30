@@ -46,7 +46,7 @@ describe('Navigation bar component', () => {
   describe('Log in, log out tests', () => {
     test('It renders with a log out link if user is logged in', () => {
       const { getByText, queryByText, getByTestId } = renderWithRouter(
-        <LoggedIn.Provider value="Seppe">
+        <LoggedIn.Provider value={{ userName: 'seppe' }}>
           <NavigationBar UserLoggedIn />
         </LoggedIn.Provider>
       );
@@ -60,7 +60,7 @@ describe('Navigation bar component', () => {
 
     test("It renders with a login link if user isn't logged int", () => {
       const { getByText, queryByText, queryByTestId } = renderWithRouter(
-        <LoggedIn.Provider value={undefined}>
+        <LoggedIn.Provider value={{ userName: undefined }}>
           <NavigationBar UserLoggedIn />
         </LoggedIn.Provider>
       );

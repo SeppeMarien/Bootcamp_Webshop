@@ -36,49 +36,46 @@ describe('Calculate checkout', () => {
   });
 
   test('It calculates the total', () => {
-    const { getByText, getByTestId } = renderCheckoutList({ products: products() });
+    const { getByTestId } = renderCheckoutList({ products: products() });
 
-    getByText('Total:');
     const total = getByTestId('total');
-    expect(+total.innerHTML).toBe(666);
+    expect(total.innerHTML).toBe('€&nbsp;666');
   });
 
   test('it shows the shipping cost', () => {
-    const { getByText, getByTestId } = renderCheckoutList();
+    const { getByTestId } = renderCheckoutList();
 
-    getByText('Shipping cost:');
-    getByTestId('shippingCost');
+    const shippingCost = getByTestId('shippingCost');
+
+    expect(shippingCost).toBeInTheDocument();
   });
 
   test('it shows the total with shipping cost', () => {
-    const { getByText, getByTestId } = renderCheckoutList({ products: products() });
+    const { getByTestId } = renderCheckoutList({ products: products() });
 
-    getByText('Total with Shipping cost:');
     const totalWithShipping = getByTestId('totalWithShipping');
     const shippingCost = getByTestId('shippingCost');
 
-    expect(+shippingCost.innerHTML).toBe(0);
-    expect(+totalWithShipping.innerHTML).toBe(666);
+    expect(shippingCost.innerHTML).toBe('€&nbsp;0');
+    expect(totalWithShipping.innerHTML).toBe('€&nbsp;666');
   });
 
   test('It should add the shipping cost when the total is lower than 40', () => {
-    const { getByText, getByTestId } = renderCheckoutList({ products: productsWithTotalPriceLowerThan40() });
+    const { getByTestId } = renderCheckoutList({ products: productsWithTotalPriceLowerThan40() });
 
-    getByText('Total with Shipping cost:');
     const totalWithShipping = getByTestId('totalWithShipping');
     const shippingCost = getByTestId('shippingCost');
 
-    expect(+shippingCost.innerHTML).toBe(10);
-    expect(+totalWithShipping.innerHTML).toBe(49.99);
+    expect(shippingCost.innerHTML).toBe('€&nbsp;10');
+    expect(totalWithShipping.innerHTML).toBe('€&nbsp;49.99');
   });
 
   test('It should not add the shipping cost when the total is 40', () => {
-    const { getByText, getByTestId } = renderCheckoutList({ products: productsWithTotalPrice40() });
+    const { getByTestId } = renderCheckoutList({ products: productsWithTotalPrice40() });
 
-    getByText('Total with Shipping cost:');
     const totalWithShipping = getByTestId('totalWithShipping');
 
-    expect(+totalWithShipping.innerHTML).toBe(40);
+    expect(totalWithShipping.innerHTML).toBe('€&nbsp;40');
   });
 
   test('It should render the button to pay', () => {
@@ -86,6 +83,6 @@ describe('Calculate checkout', () => {
 
     const button = getByRole('button');
 
-    expect(button).toHaveTextContent('proceed to checkout');
+    expect(button).toHaveTextContent('Proceed to checkout');
   });
 });

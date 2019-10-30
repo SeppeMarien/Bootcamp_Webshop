@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState, useContext } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, useLocation } from 'react-router-dom';
 import { PropTypes } from 'prop-types';
 import { LoggedIn } from '../../Providers/Providers';
 
@@ -12,12 +12,15 @@ const Login = ({ cbSetName }) => {
   });
   const { userName } = useContext(LoggedIn);
 
+  const location = useLocation();
+  const formerUrl = location.state && location.state.from && location.state.from;
+
   // reference for focus
   const usernameInput = useRef();
 
   // set focus by render
   useEffect(() => {
-    usernameInput.current.focus();
+    if (usernameInput.current) usernameInput.current.focus();
   }, []);
 
   // known users to log in
@@ -38,7 +41,9 @@ const Login = ({ cbSetName }) => {
     };
   }
 
-  if (userName) return <Redirect to="/" />;
+  if (userName) {
+    return <Redirect to={!formerUrl ? '/' : formerUrl} />;
+  }
 
   // validate users!
   const validateUser = e => {

@@ -6,7 +6,7 @@ import ShoppingCartBadge from '../../components/ShoppingCartBadge';
 
 function NavigationBar() {
   const pathToLogo = '../../public/images/js-logo.png';
-  const userName = useContext(LoggedIn);
+  const { userName } = useContext(LoggedIn);
 
   return (
     <nav className="navbar navbar-light bg-light">
