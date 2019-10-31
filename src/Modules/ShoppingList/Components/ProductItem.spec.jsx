@@ -128,11 +128,8 @@ describe('testing product item component', () => {
 
     describe('item and shopping basket', () => {
       test('it adds item to basket when clicked button', () => {
-        const { getByRole, product, debug, dispatchSpy } = render(69);
-
+        const { getByRole, product, dispatchSpy } = render(69);
         const btn = getByRole('button');
-
-        debug();
 
         fireEvent.click(btn);
 
