@@ -66,7 +66,7 @@ function ShoppingCartList() {
                     aria-label="Remove"
                     style={{ verticalAlign: 'top' }}
                   >
-                    <FontAwesomeIcon role="img" icon={faTrash} />
+                    <FontAwesomeIcon role="img" icon={faTrash} />`
                   </button>
                 </td>
               </tr>
