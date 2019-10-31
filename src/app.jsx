@@ -14,7 +14,7 @@ import store from './store/store';
 import Todos from './Modules/Todo/Todos';
 import ShoppingList from './Modules/ShoppingList/ProductList';
 import Checkout from './Modules/Checkout/Checkout';
-
+import Logout from './Modules/Logout/Logout';
 
 function AppWithoutRender({ initialUser = '' }) {
   const [userName, setUserName] = useState(initialUser);
@@ -29,6 +29,7 @@ function AppWithoutRender({ initialUser = '' }) {
         <NavigationBar />
         <Switch>
           <Route path="/login" exact render={() => <Login cbSetName={setUser} />} />
+          <Route path="/logout" exact render={() => <Logout cbSetName={setUser} />} />
           <ProtectedRoute path="/todos" exact component={Todos} />
           <Route path="/products" exact component={ShoppingList} />
           <ProtectedRoute path="/checkout" exact component={Checkout} />
