@@ -1,7 +1,9 @@
 import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
-import { render as renderRtl } from '@testing-library/react';
+import { fireEvent } from '@testing-library/react';
 import ProductItem from './ProductItem';
+import { renderWithRedux } from '../../../../test/react-testing-helpers';
+import { ADD_PRODUCT } from '../../../store/Actions/actionTypes';
 
 function createDefaultProduct(id) {
   return {
@@ -14,7 +16,7 @@ function createDefaultProduct(id) {
 
 function render(id, itemProps) {
   const baseItem = createDefaultProduct(id);
-  return renderRtl(<ProductItem item={{ ...baseItem, ...itemProps }} />);
+  return { ...renderWithRedux(<ProductItem item={{ ...baseItem, ...itemProps }} />), product: baseItem };
 }
 
 describe('testing product item component', () => {
@@ -91,7 +93,7 @@ describe('testing product item component', () => {
         const { getByTestId } = render(1, { basePrice: 500.0 });
         const basePrice = getByTestId('basePrice');
 
-        expect(basePrice).toHaveStyle(`text-decoration: line-through`);
+        expect(basePrice).toHaveClass('money--old');
       });
 
       test('it only renders price when price has been raised', () => {
@@ -121,6 +123,17 @@ describe('testing product item component', () => {
       test('discount badge does render when there is a discount', () => {
         const { getByTestId } = render(1, { price: 23.99, basePrice: 50.0 });
         expect(getByTestId('discount-container')).toBeInTheDocument();
+      });
+    });
+
+    describe('item and shopping basket', () => {
+      test('it adds item to basket when clicked button', () => {
+        const { getByRole, product, dispatchSpy } = render(69);
+        const btn = getByRole('button');
+
+        fireEvent.click(btn);
+
+        expect(dispatchSpy).toHaveBeenCalledWith({ type: ADD_PRODUCT, payload: product });
       });
     });
   });

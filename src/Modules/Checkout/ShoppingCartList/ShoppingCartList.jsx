@@ -1,5 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { removeProduct } from '../../../store/Actions/ProductActions';
 
 function ShoppingCartList() {
@@ -64,7 +66,7 @@ function ShoppingCartList() {
                     aria-label="Remove"
                     style={{ verticalAlign: 'top' }}
                   >
-                    <i className="fa fa-trash" />
+                    <FontAwesomeIcon role="img" icon={faTrash} />`
                   </button>
                 </td>
               </tr>

@@ -13,7 +13,7 @@ function CalculateCheckout() {
   }
   function calculateShippingCost() {
     let totalWithShipping = calculateTotal();
-    if (totalWithShipping < 40) {
+    if (totalWithShipping !== 0 && totalWithShipping < 40) {
       totalWithShipping += 10;
     }
 
@@ -44,7 +44,7 @@ function CalculateCheckout() {
             <strong className="text-muted">Shipping and handling (free above € 40)</strong>
             <strong>
               <span className="money money--old">
-                <del data-testid="shippingCost">€&nbsp;{total < 40 ? 10 : 0}</del>
+                <p data-testid="shippingCost">€&nbsp;{total !== 0 && total < 40 ? 10 : 0}</p>
               </span>
             </strong>
           </li>

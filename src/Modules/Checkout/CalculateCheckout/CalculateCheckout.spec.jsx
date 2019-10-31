@@ -85,4 +85,14 @@ describe('Calculate checkout', () => {
 
     expect(button).toHaveTextContent('Proceed to checkout');
   });
+
+  test('It should show zero for shipping cost when the total is zero', () => {
+    const { getByTestId } = renderCheckoutList();
+
+    const totalWithShipping = getByTestId('totalWithShipping');
+    const shippingCost = getByTestId('shippingCost');
+
+    expect(shippingCost.innerHTML).toBe('€&nbsp;0');
+    expect(totalWithShipping.innerHTML).toBe('€&nbsp;0');
+  });
 });

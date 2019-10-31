@@ -1,5 +1,7 @@
 /* eslint-disable no-console */
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
@@ -14,7 +16,7 @@ function ShoppingCartBadge() {
 
   return (
     <NavLink to="/checkout">
-      <i className="fa fa-shopping-cart" />({getAmountOfProducts()})
+      <FontAwesomeIcon role="img" icon={faShoppingCart} />({getAmountOfProducts()})
     </NavLink>
   );
 }
