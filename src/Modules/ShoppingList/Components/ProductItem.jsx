@@ -16,8 +16,13 @@ const ProductItem = ({ item }) => {
   }
 
   return (
-    <div className="card" style={{ width: '18rem' }} data-testid="product-item" data-id={id}>
-      <img src={!image ? 'http://placehold.it/350x260' : image} className="card-img-top" alt="productImage" />
+    <div className="card" data-testid="product-item" data-id={id}>
+      <img
+        src={!image ? 'http://placehold.it/350x260' : image}
+        className="card-img-top"
+        alt="productImage"
+        style={{ objectFit: 'cover', height: '200px' }}
+      />
       <div className="card-body">
         <h5 className="card-title">{title}</h5>
         <p className="card-text">
@@ -26,18 +31,22 @@ const ProductItem = ({ item }) => {
       </div>
       <ul className="list-group list-group-flush">
         <li className="list-group-item">
-          <b>SKU: </b> {sku}
+          <strong>SKU:</strong> {sku}
         </li>
         <li className="list-group-item">
-          <span data-testid="price">{price}</span>
+          <span className="money money--new" data-testid="price">
+            {price}
+          </span>
           {basePrice && basePrice > price && (
-            <span style={{ textDecoration: 'line-through' }} data-testid="basePrice">
+            <span className="money money--old" data-testid="basePrice">
               {basePrice}
             </span>
           )}
         </li>
         <li className="list-group-item">
-          <Alert variant={stocked ? 'success' : 'danger'}>{stocked ? 'in Stock' : 'out of stock'}</Alert>
+          <h5 className="mb-0">
+            <Alert variant={stocked ? 'success' : 'danger'}>{stocked ? 'in Stock' : 'out of stock'}</Alert>
+          </h5>
         </li>
       </ul>
       <div className="card-body">
@@ -49,6 +58,7 @@ const ProductItem = ({ item }) => {
     </div>
   );
 };
+
 ProductItem.propTypes = {
   item: shape({
     id: number.isRequired,

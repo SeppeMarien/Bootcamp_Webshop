@@ -93,7 +93,7 @@ describe('testing product item component', () => {
         const { getByTestId } = render(1, { basePrice: 500.0 });
         const basePrice = getByTestId('basePrice');
 
-        expect(basePrice).toHaveStyle(`text-decoration: line-through`);
+        expect(basePrice).toHaveClass('money--old');
       });
 
       test('it only renders price when price has been raised', () => {
