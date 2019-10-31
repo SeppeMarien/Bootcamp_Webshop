@@ -19,7 +19,7 @@ describe('Protected route component', () => {
     currentIdentity = 'johndoe',
   } = {}) {
     const result = renderWithRouter(
-      <LoggedIn.Provider value={currentIdentity}>
+      <LoggedIn.Provider value={{ userName: currentIdentity }}>
         <ProtectedRoute path="/match" exact={exact} component={component} render={render} />
       </LoggedIn.Provider>,
       { route }
