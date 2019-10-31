@@ -32,6 +32,12 @@ describe('Navigation bar component', () => {
     getByText('Bootcamp');
   });
 
+  test('it renders with product link', () => {
+    const { getByText } = renderWithRouter(<NavigationBar />);
+
+    getByText('Products');
+  });
+
   test('it renders the shopping cart badge', () => {
     const { getByTestId } = renderWithRouter(<NavigationBar />);
     expect(getByTestId('navShoppingBadge')).toBeInTheDocument();

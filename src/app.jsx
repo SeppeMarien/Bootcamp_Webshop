@@ -12,7 +12,9 @@ import ProtectedRoute from './components/ProtectedRoute';
 
 import store from './store/store';
 import Todos from './Modules/Todo/Todos';
+import ShoppingList from './Modules/ShoppingList/ProductList';
 import Checkout from './Modules/Checkout/Checkout';
+
 
 function AppWithoutRender({ initialUser = '' }) {
   const [userName, setUserName] = useState(initialUser);
@@ -28,6 +30,7 @@ function AppWithoutRender({ initialUser = '' }) {
         <Switch>
           <Route path="/login" exact render={() => <Login cbSetName={setUser} />} />
           <ProtectedRoute path="/todos" exact component={Todos} />
+          <Route path="/products" exact component={ShoppingList} />
           <ProtectedRoute path="/checkout" exact component={Checkout} />
           <Route path="/" exact component={Home} />
           <Route component={NotFound} />
