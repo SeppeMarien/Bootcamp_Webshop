@@ -1,11 +1,20 @@
 import React, { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import ProductItem from './Components/ProductItem';
-import { getProductsList } from '../../api/productsApi';
+import getProductsList from '../../api/productsApi';
 
 const ProductList = () => {
   const [products, setProducts] = useState();
+  const location = useLocation();
   // eslint-disable-next-line no-unused-vars
-  const [page, setPage] = useState(1);
+  // const [page, setPage] = useState(1);
+
+  // if (location.search) page = location.search.query.;
+
+  const search = new URLSearchParams(location.search);
+  const page = search.get('page') || 1;
+
+  console.log(page);
 
   useEffect(() => {
     async function fetchProducts() {
@@ -23,12 +32,15 @@ const ProductList = () => {
       <div className="row mb-2">
         <div className="col-12">
           <nav className="d-flex justify-content-between" aria-label="Product Page navigation">
-            <a className="btn btn-sm btn-outline-primary disabled" href="/products?page=0">
+            <Link
+              className={`btn btn-sm btn-outline-primary ${+page === 1 ? 'disabled' : ''}`}
+              to={`/products?page=${Number(page) - 1}`}
+            >
               Previous
-            </a>
-            <a className="btn btn-sm btn-outline-primary" href="/products?page=2">
+            </Link>
+            <Link className="btn btn-sm btn-outline-primary" to={`/products?page=${Number(page) + 1}`}>
               Next
-            </a>
+            </Link>
           </nav>
         </div>
       </div>

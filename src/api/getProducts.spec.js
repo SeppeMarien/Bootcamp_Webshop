@@ -1,5 +1,5 @@
 import nock from 'nock';
-import { getProductsList } from './productsApi';
+import getProductsList from './productsApi';
 
 describe('Product api get methode', () => {
   function products() {
@@ -53,7 +53,7 @@ describe('Product api get methode', () => {
   test('It should return the products', async () => {
     nock('http://localhost:3000/')
       .get('/products')
-      .query({ _page: 1, _limit: 4 })
+      .query({ _page: 1, _limit: 4, _sort: 'title' })
       .reply(200, products());
 
     const result = await getProductsList(1, 4);
@@ -64,7 +64,7 @@ describe('Product api get methode', () => {
   test('It should call the api with the default limit value', async () => {
     nock('http://localhost:3000/')
       .get('/products')
-      .query({ _page: 1, _limit: 15 })
+      .query({ _page: 1, _limit: 12, _sort: 'title' })
       .reply(200, products());
 
     const result = await getProductsList(1);
@@ -75,7 +75,7 @@ describe('Product api get methode', () => {
   test('It should call the api with the default page and limit value', async () => {
     nock('http://localhost:3000/')
       .get('/products')
-      .query({ _page: 1, _limit: 15 })
+      .query({ _page: 1, _limit: 12, _sort: 'title' })
       .reply(200, products());
 
     const result = await getProductsList();
