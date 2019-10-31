@@ -31,6 +31,8 @@ export function renderWithRouter(
 }
 
 export function renderWithRedux(ui, { initialState = {}, store = createStore(reducer, initialState) } = {}) {
+  const dispatchSpy = jest.spyOn(store, store.dispatch.name);
+
   return {
     ...render(ui, {
       wrapper: props => <Provider {...props} store={store} />,
@@ -39,6 +41,7 @@ export function renderWithRedux(ui, { initialState = {}, store = createStore(red
     // to reference it in our tests (just try to avoid using
     // this to test implementation details).
     store,
+    dispatchSpy,
   };
 }
 

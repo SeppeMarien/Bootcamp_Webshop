@@ -1,9 +1,10 @@
 import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
-import { render as renderRtl, waitForElement } from '@testing-library/react';
+import { waitForElement } from '@testing-library/react';
 import nock from 'nock';
 
 import ProductList from './ProductList';
+import { renderWithRedux } from '../../../test/react-testing-helpers';
 
 describe('product list component', () => {
   function createProduct(id) {
@@ -34,7 +35,7 @@ describe('product list component', () => {
         })
         .reply(200, [product1, product2, product3]);
 
-      const { getAllByTestId } = renderRtl(<ProductList />);
+      const { getAllByTestId } = renderWithRedux(<ProductList />);
       const productItems = await waitForElement(() => getAllByTestId('product-item'));
 
       expect(productItems.map(x => x.getAttribute('data-id'))).toEqual(['1', '2', '3']);

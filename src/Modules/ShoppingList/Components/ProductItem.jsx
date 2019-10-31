@@ -1,11 +1,19 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { shape, number, string, bool } from 'prop-types';
 import Button from '../../../components/Button';
 import Alert from '../../../components/Alert/Alert';
 import DiscountBadge from './DiscountBadge';
+import { addProduct } from '../../../store/Actions/ProductActions';
 
 const ProductItem = ({ item }) => {
   const { id, title, desc, image, sku, stocked, price, basePrice } = item;
+  const dispatch = useDispatch();
+
+  function onBtnClick() {
+    const action = addProduct(item);
+    dispatch(action);
+  }
 
   return (
     <div className="card" style={{ width: '18rem' }} data-testid="product-item" data-id={id}>
@@ -33,7 +41,9 @@ const ProductItem = ({ item }) => {
         </li>
       </ul>
       <div className="card-body">
-        <Button className="secondary">Add to card</Button>
+        <Button onClick={onBtnClick} className="secondary">
+          Add to cart
+        </Button>
       </div>
       {basePrice && basePrice > price && <DiscountBadge price={price} basePrice={basePrice} />}
     </div>
